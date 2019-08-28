@@ -1,33 +1,43 @@
-const path = require('path');
-const hwp = require('html-webpack-plugin');
-
-
-const settings = {
-    distPath: path.join(__dirname, "dist"),
-    srcPath: path.join(__dirname, "src")
-};
-
-function srcPathExtend(subpath) {
-    return path.join(settings.srcPath, subpath)
-}
+let HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
 
 module.exports = {
-    entry: path.join(__dirname, '/src/index.js'),
-    output: {
-        filename: 'build.js',
-        path: path.join(__dirname, '/dist')
-    },
-    module:{
-        rules:[{
-            exclude: /node_modules/,
-            test: /\.js$/,
-            loader: 'babel-loader'
-        }]
-        
-    },
-    devServer: {
-        contentBase: path.join(__dirname, 'dist'),
-        compress: true,
-        port: 9000
+  mode: "development",
+  resolve: {
+    extensions: [".js", ".jsx"]
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js?$/,
+        loader: "babel-loader"
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
       }
-}
+    ]
+  },
+  resolve: {
+    extensions: [".js", ".jsx"],
+    alias: {
+      "@": path.resolve(__dirname, "src/")
+    }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./src/index.html"
+    })
+  ],
+  devServer: {
+    contentBase: path.join(__dirname, "src"),
+    historyApiFallback: false,
+    compress: true,
+    port: 9000
+  },
+  externals: {
+    //config: JSON.stringify({
+    //apiUrl: "http://localhost:4000"
+    //})
+  }
+};

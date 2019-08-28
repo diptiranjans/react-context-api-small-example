@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { UseProvider } from "../UseContext";
-
 import MyClass from "../components/MyClass";
 
 class App extends Component {
